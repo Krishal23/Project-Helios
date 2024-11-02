@@ -13,10 +13,10 @@ function AppRoutes() {
       <Header /> {/* Header stays consistent across all pages */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutUs />} />
+        {/* <Route path="/about" element={<AboutUs />} /> */}
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/membership" element={<Membership/>} />
-        <Route path="/services" element={<Services />} />
+        {/* <Route path="/services" element={<Services />} /> */}
         {/* <Route path="/profile" element={<Profile />} /> Example Profile Route */}
       </Routes>
       <Footer /> {/* Footer stays consistent across all pages */}
