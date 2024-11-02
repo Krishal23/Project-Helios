@@ -1,0 +1,78 @@
+/* Footer.module.css */
+
+.footer {
+    display: flex;
+    position: relative; /* Sticks footer to the bottom */
+    bottom: 0;
+    width: 96vw; /* Full width */
+    justify-content: space-around;
+    padding: 1rem 2rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    z-index: 1000; /* Ensures footer is above other content */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.about, .links, .social {
+    flex: 1;
+    min-width: 200px;
+}
+
+.about h4, .links h4, .social h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.about p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.links li {
+    margin: 0.5rem 0;
+}
+
+.links a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.links a:hover {
+    color: #ff6347;
+}
+
+.social .icons a {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+.social .icons a:hover {
+    color: #ff6347;
+}
+
+/* Light Theme */
+.light {
+    background: linear-gradient(to right, #f4f4f9, #e6e6ea);
+    color: #333;
+}
+
+/* Dark Theme */
+.dark {
+    background: linear-gradient(to right, #2e2e2e, #1f1f1f);
+    color: #f5f5f5;
+}

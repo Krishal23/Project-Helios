@@ -1,0 +1,177 @@
+/* src/Components/styles/Membership.module.css */
+
+.container {
+    background-color: #f9f9fb; /* Light background */
+    padding: 8rem;
+    max-width: 1200px; /* Increased width for two-column layout */
+    margin: 0rem auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    
+}
+
+.light {
+    color: #333; /* Dark text for contrast */
+}
+
+.dark {
+    background-color: #2a2a2a; /* Dark background */
+    color: #e0e0e0; /* Light text for readability */
+}
+
+.content {
+    display: flex;
+    justify-content: space-between; /* Two columns */
+}
+
+.benefits {
+    flex: 1; /* Left column for benefits */
+    margin-right: 2rem; /* Space between columns */
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #ff6347; /* Brand color */
+}
+
+.benefitsList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.benefitsList li {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+}
+
+.checkIcon {
+    color: #ff6347; /* Icon color */
+    margin-right: 0.5rem;
+}
+
+.formContainer {
+    flex: 1; /* Right column for form */
+}
+
+.formTitle {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.membershipForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+}
+
+input {
+    width: 35rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+.dark input{
+color: white;
+}
+
+input:focus {
+    border-color: #ff6347; /* Change border color on focus */
+}
+
+.membershipOptions {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0; /* Spacing for membership buttons */
+}
+
+.membershipButton {
+    flex: 1; /* Equal width for buttons */
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.membershipButton.selected {
+    border-color: #ff6347;
+    background-color: rgba(255, 99, 71, 0.1); /* Lighten the selected button */
+}
+
+.submitButton {
+    padding: 0.75rem;
+    background-color: #ff6347; /* Primary button color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+    background-color: #ff4500; /* Button hover color */
+}
+
+/* Popup Styles */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popupContent {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.dark .popupContent{
+    color: black;
+}
+
+.closeButton {
+    padding: 0.5rem 1rem;
+    background-color: #f44336; /* Red for close button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.closeButton:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column; /* Stack columns on smaller screens */
+    }
+
+    .benefits {
+        margin-right: 0; /* Remove right margin */
+    }
+}

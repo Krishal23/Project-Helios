@@ -1,0 +1,144 @@
+/* Common Styles */
+.container {
+    max-width: 1200px;
+    margin: 0rem auto;
+    margin-top: 2rem;
+    padding: 4rem;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme change */
+}
+
+.title {
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    padding: 2.5rem 2rem;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cardTitle {
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+}
+
+.cardDescription {
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+/* Light Theme */
+.light {
+    background-color: #f9f9fb;
+    color: #333;
+}
+
+.lightCard {
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.lightCard:hover {
+    background-color: rgba(255, 99, 71, 0.08); /* Light orange highlight */
+}
+
+.icon {
+    color: #ff6347;
+}
+
+.light .cardTitle {
+    color: #ff6347;
+}
+
+.light .card:hover .cardTitle {
+    color: #ff4500;
+}
+
+/* Dark Theme */
+.dark {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+.darkCard {
+    background-color: #333;
+    color: #e0e0e0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.darkCard:hover {
+    background-color: rgba(255, 99, 71, 0.2); /* Darker orange highlight */
+}
+
+.dark .icon {
+    color: #ff6347;
+}
+
+.dark .cardTitle {
+    color: #ff6347;
+}
+
+.dark .card:hover .cardTitle {
+    color: #ff4500;
+}
+
+/* Hover Effect for Both Themes */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(255, 99, 71, 0.1); /* Highlight */
+    z-index: 1;
+    transition: width 0.3s ease;
+}
+
+.card:hover::before {
+    width: 100%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .cardGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .title {
+        font-size: 2.2rem;
+    }
+
+    .card {
+        padding: 2rem;
+    }
+}

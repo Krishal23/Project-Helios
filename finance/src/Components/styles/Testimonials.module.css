@@ -1,0 +1,93 @@
+/* Testimonials Section */
+.testimonialsSection {
+    padding: 4rem 0;
+    background-color: #f9f9fb; /* Light theme background */
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.testimonialsSection.dark {
+    background-color: #1a1a1a; /* Dark theme background */
+    color: #f5f5f5; /* Light text color for dark theme */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Title */
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #4caf50; /* Accent color for light theme */
+}
+
+.dark .title {
+    color: #ff6347; /* Accent color for dark theme */
+}
+
+/* Testimonials Grid */
+.testimonialsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+/* Testimonial Item */
+.testimonialItem {
+    background-color: #fff; /* Light background for testimonial items */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.dark .testimonialItem{
+    background-color: #2a2a3c; /* Darker background for testimonials in dark theme */
+    color: #f5f5f5; /* Light text color for dark theme */
+}
+
+/* User Image */
+.imageWrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.userImage {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Testimonial Text */
+.testimonialText {
+    font-size: 1.2rem;
+    color: #333; /* Dark text color for light theme */
+    margin: 1rem 0;
+}
+
+.dark .testimonialText {
+    color: #f9f9fb; /* Light text color for dark theme */
+}
+
+/* User Info */
+.userInfo {
+    font-weight: bold;
+    color: #ff6347; /* Highlight color for light theme */
+}
+
+.dark .userInfo {
+    color: #4caf50; /* Highlight color for dark theme */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .testimonialsGrid {
+        grid-template-columns: 1fr; /* Stack testimonials on smaller screens */
+    }
+}

@@ -1,0 +1,154 @@
+/* ContactUs.module.css */
+
+.container {
+    background-color: #f9f9fb; /* Light background */
+}
+
+.contactUs {
+    max-width: 600px;
+    margin: 6rem auto 0 auto; /* Slight margin for top space */
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light Theme Styles */
+.light {
+    background-color: #f9f9fb; /* Light background */
+    color: #333; /* Dark text for contrast */
+}
+
+/* Dark Theme Styles */
+.dark {
+    background-color: #2a2a2a; /* Dark background for the contact section */
+    color: #e0e0e0; /* Light text for readability */
+}
+
+/* Title Styles */
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #ff6347; /* Consistent brand color for headings */
+}
+
+/* Form Styles */
+.contactForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Gap between form elements */
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* Input Styles */
+input,
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: transparent;
+    transition: border-color 0.3s ease;
+    color: #000000;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #ff6347; /* Change border color on focus */
+}
+
+/* Submit Button Styles */
+.submitButton {
+    padding: 0.75rem;
+    background-color: #ff6347; /* Primary button color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold; /* Bold text for better readability */
+}
+
+.submitButton:hover {
+    background-color: #ff4500; /* Button hover color */
+}
+
+/* Popup Styles */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popupContent {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Close Button */
+.closeButton {
+    padding: 0.5rem 1rem;
+    background-color: #f44336; /* Red for close button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.closeButton:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+/* General Enhancements for Dark Mode */
+.dark input,
+.dark textarea {
+    background-color: #333; /* Darker background for input fields */
+    color: #e0e0e0; /* Light text for input fields */
+    border: 1px solid #444; /* Darker border */
+}
+
+.dark .popupContent {
+    background: #2a2a2a; /* Dark background for popup */
+    color: #e0e0e0; /* Light text for popup */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .contactUs {
+        padding: 1.5rem; /* Reduce padding on smaller screens */
+    }
+
+    .title {
+        font-size: 2rem; /* Slightly smaller title for mobile */
+    }
+
+    .submitButton {
+        padding: 0.5rem; /* Smaller button padding */
+    }
+
+    .closeButton {
+        padding: 0.5rem; /* Smaller close button padding */
+    }
+}

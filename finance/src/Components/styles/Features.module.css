@@ -1,0 +1,98 @@
+:root {
+    --bg-color-light: #f9f9fb;
+    --bg-color-dark: #1e1e2f;
+    --text-color-light: #333;
+    --text-color-dark: #f9f9fb;
+    --card-bg-color-light: #fff;
+    --card-bg-color-dark: #2a2a3c;
+    --highlight-color: #ff6347; /* Tomato */
+}
+
+/* Features Section */
+.featuresSection {
+    padding: 4rem 0;
+    background-color: var(--bg-color-light);
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark theme for Features Section */
+.featuresSection.dark {
+    background-color: var(--bg-color-dark);
+    color: var(--text-color-dark);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: rgb(0, 0, 0);
+}
+
+/* Dark theme for Title */
+.featuresSection.dark .title {
+    color: white; /* Use white text in dark theme */
+}
+
+/* Features Grid */
+.featuresGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+/* Feature Item */
+.featureItem {
+    background-color: var(--card-bg-color-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+/* Dark theme for Feature Item */
+.featureItem.dark {
+    background-color: var(--card-bg-color-dark);
+}
+
+/* Feature Item Hover Effect */
+.featureItem:hover {
+    transform: translateY(-5px);
+}
+
+/* Icon */
+.icon {
+    color: var(--highlight-color);
+    margin-bottom: 1rem;
+}
+
+/* Feature Title */
+.featureTitle {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    color: var(--highlight-color);
+}
+
+/* Feature Description */
+.featureDescription {
+    color: var(--text-color-light);
+}
+
+/* Dark theme for Feature Description */
+.featureDescription.dark {
+    color: var(--text-color-dark);
+}
+
+/* Apply theme classes directly to feature items */
+.featureItem.light .featureDescription {
+    color: var(--text-color-light);
+}
+
+.featureItem.dark .featureDescription {
+    color: var(--text-color-dark);
+}
