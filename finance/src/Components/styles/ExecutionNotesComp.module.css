@@ -1,0 +1,158 @@
+
+.component{
+    border: 2px solid transparent; /* Optional: Add a border around the profile picture */
+}
+
+/* General styles for the component */
+.executionNotes {
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 120px auto;
+    width: 90vw;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, color 0.3s;
+    
+}
+
+/* Title styles */
+.title {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: inherit; /* Ensure title color is consistent with the theme */
+}
+
+/* Textarea styles */
+.textArea {
+    width: 100%;
+    height: 150px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    resize: none;
+    transition: background 0.3s, color 0.3s, border 0.3s;
+}
+
+/* Input field styles */
+.categoryInput,
+.eventInput {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: border 0.3s;
+}
+
+/* Toggle button styles */
+.importanceToggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: fit-content;
+    margin-bottom: 10px;
+    gap: 2rem;
+}
+
+/* Toggle button */
+.toggleButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.0em;
+    color: inherit;
+}
+
+/* Save button styles */
+.saveButton {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    background: #ff6347; /* Main color for the save button */
+    color: white;
+}
+
+/* Styles for saved notes container */
+.notesContainer {
+    margin-top: 20px;
+}
+
+/* Individual note card styles */
+.noteCard {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #f9f9f9; /* Default background for light theme */
+    transition: background 0.3s, color 0.3s, border 0.3s;
+}
+
+/* Button group styles */
+.buttonGroup {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Edit and delete button styles */
+.editButton,
+.deleteButton {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+/* Light Theme Styles */
+.light {
+    background-color: #ffffff; /* Light background */
+    color: #333333; /* Dark text color */
+}
+
+.light .textArea,
+.light .categoryInput,
+.light .eventInput {
+    background-color: #f5f5f5; /* Light grey background for inputs */
+    border: 1px solid #ccc; /* Light border */
+}
+
+.light .noteCard {
+    background: #ffffff; /* White background for notes */
+    border: 1px solid #e0e0e0; /* Slightly darker border */
+}
+
+/* Dark Theme Styles */
+.dark {
+    background-color: #1a1a1a; /* Dark background */
+    color: #e0e0e0; /* Light text color */
+}
+
+.dark .textArea,
+.dark .categoryInput,
+.dark .eventInput {
+    background-color: #333333; /* Dark grey background for inputs */
+    border: 1px solid #555; /* Darker border */
+    color: #ffffff; /* White text for inputs */
+}
+
+.dark .noteCard {
+    background: #2c2c2c; /* Darker background for notes */
+    border: 1px solid #444; /* Dark border */
+}
+
+.dark .saveButton {
+    background: #ff6347; /* Same for save button */
+}
+
+.dark .toggleButton {
+    color: #ffffff; /* White color for toggle button in dark mode */
+}
+
+/* Hover effects */
+.textArea:hover,
+.categoryInput:hover,
+.eventInput:hover,
+.noteCard:hover {
+    border-color: #ff6347; /* Highlight border on hover */
+}

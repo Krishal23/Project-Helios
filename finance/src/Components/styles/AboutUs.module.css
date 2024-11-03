@@ -147,59 +147,72 @@ p {
     color: #333;
 }
 
-/* Dark Theme Enhancements */
+/* Dark Theme with Green Enhancements */
 .dark {
-    background: linear-gradient(to right, #121212, #232323); /* Darker, sleek gradient */
-    color: #e0e0e0; /* Lighter text for better readability */
+    background: linear-gradient(to right, #0f0f0f, #1c1c1c); /* Darker base with subtle gradient */
+    color: #e0e0e0; /* Lighter text for readability */
 }
 
 .dark h1, .dark h2, .dark h3 {
-    color: #ff6347; /* Consistent branding color for headings */
+    color: #32cd32; /* Green shade for primary headings */
 }
 
 .dark .valueItem {
-    background-color: #333333; /* Darker background for value items */
-    color: #e0e0e0;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); /* Stronger shadow for depth */
+    background-color: #202020; /* Dark background for value items */
+    color: #a0d36a; /* Soft green for text */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); /* Enhanced shadow for depth */
+    border-left: 5px solid #228b22; /* Green border for value items */
 }
 
 .dark .valueItem:hover {
     transform: translateY(-12px);
-    background-color: #ff6347; /* Make items stand out on hover */
+    background-color: #96e89637; /* Green hover effect */
     color: #fff; /* White text for contrast on hover */
 }
 
 .dark .testimonialsSection {
-    background-color: #2a2a2a; /* Softer dark background */
+    background-color: #242424; /* Softer dark background */
     color: #e0e0e0;
+    border-left: 5px solid #32cd32; /* Green border to emphasize section */
 }
 
 .dark .membership {
-    background-color: #2a2a2a; /* Dark background for call-to-action */
+    background-color: #242424; /* Dark background for call-to-action */
     color: #e0e0e0;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+    border-radius: 20px; /* Rounded corners for smooth UI */
 }
 
 .dark .joinButton {
-    background: linear-gradient(135deg, #ff6347, #ff4500); /* Bolder gradient */
+    background: linear-gradient(135deg, #32cd32, #228b22); /* Green gradient for buttons */
     color: #fff;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .dark .joinButton:hover {
-    background-color: #ff4500; /* Strong hover effect */
+    background-color: #228b22; /* Dark green hover effect */
     transform: scale(1.05); /* Slight scaling on hover */
 }
 
-/* General Enhancements for Dark Mode */
 .dark p {
-    color: #d0d0d0; /* Lighter paragraph text */
+    color: #b8d28b; /* Greenish light paragraph text */
 }
 
 .dark .teamImage {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6); /* Stronger shadow for image */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7); /* Stronger shadow for images */
 }
 
+/* Icon Enhancements */
+.dark .icon {
+    color: #32cd32; /* Green for icons */
+}
+
+/* Hover Effects for Links */
+.dark a:hover {
+    color: #82ce82; /* Green hover color for links */
+}
+
+/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
     .values, .testimonials {
         flex-direction: column;

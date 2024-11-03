@@ -1,0 +1,120 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for themes */
+}
+
+.light {
+    background-color: #f9f9fb; /* Light background */
+    color: #333; /* Dark text for contrast */
+}
+
+.dark {
+    background-color: #2a2a2a; /* Dark background */
+    color: #e0e0e0; /* Light text for readability */
+}
+
+.content {
+    display: flex;
+    justify-content: space-between; /* Two columns */
+    gap: 2rem; /* Add gap between columns */
+}
+
+.budgetColumn {
+    flex: 1; /* Left column for budget tracking */
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly opaque background */
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.expensesColumn {
+    flex: 1; /* Right column for logged expenses */
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly opaque background */
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.budgetInput {
+    margin-bottom: 1.5rem;
+}
+
+.input {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 10rem;
+    transition: border-color 0.3s; /* Smooth transition for input */
+}
+
+.input:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+.summaryTitle {
+    margin-top: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.summary {
+    margin-top: 0.5rem;
+}
+
+.expenseAmount {
+    font-weight: bold;
+}
+
+.remainingAmount {
+    color: #28a745; /* Green for remaining budget */
+    font-weight: bold;
+}
+
+.overspent {
+    color: #dc3545; /* Red for overspent message */
+    font-weight: bold;
+}
+
+.expensesTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.expenseList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.expenseItem {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.emptyMessage {
+    color: #888; /* Gray for no expenses logged */
+    text-align: center;
+    font-style: italic;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column; /* Stack columns on smaller screens */
+    }
+
+    .budgetColumn,
+    .expensesColumn {
+        margin-right: 0; /* Remove right margin */
+        margin-bottom: 1rem; /* Add bottom margin for spacing */
+    }
+}

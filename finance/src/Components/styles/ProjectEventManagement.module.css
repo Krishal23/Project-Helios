@@ -1,0 +1,161 @@
+/* Container Styling */
+.container {
+    max-width: auto;
+    margin: 16px auto;
+    padding: 4rem;
+    border: 2px solid #ff6347; /* Optional: Add a border around the profile picture */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions for themes */
+}
+
+/* Title Styling */
+.title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary-color); /* Primary color for titles */
+    animation: fadeIn 0.5s ease-in-out; /* Fade-in effect */
+}
+
+/* Two-column layout */
+.columns {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem; /* Space between columns */
+}
+
+/* Left Column Styling */
+.leftColumn {
+    flex: 0.5; /* Take available space */
+
+}
+
+/* Right Column Styling */
+.rightColumn {
+    flex: 1.4; /* Fixed width for preview column */
+    padding: 1.5rem; 
+    background-color: var(--preview-background); /* Distinct background for preview */
+    border-radius: 8px;
+    /* max-height: 82vh; */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+
+/* Section Styling */
+.section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for background */
+    position: relative; /* For absolute positioning of hover effect */
+    overflow: hidden; /* To hide overflowing content on hover */
+}
+
+/* Section Title Styling */
+.sectionTitle {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--section-title-color); /* Title color based on the theme */
+    border-bottom: 2px solid var(--primary-color); /* Underline for emphasis */
+    padding-bottom: 0.5rem;
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+/* Hover Effect on Sections */
+.section:hover {
+    transform: scale(1.03); /* Scale effect on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .columns {
+        flex-direction: column; /* Stack columns vertically on small screens */
+    }
+
+    .rightColumn {
+        flex: 1; /* Make the preview column full-width on mobile */
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .sectionTitle {
+        font-size: 1.5rem;
+    }
+
+    .section {
+        padding: 1.5rem;
+    }
+}
+
+/* Light Theme */
+.light {
+    background-color: #f9f9fb; /* Light theme background */
+    color: #333; /* Light theme text color */
+}
+
+.light .rightColumn {
+    background-color: #ffffff; /* White background for sections in light mode */
+}
+
+.light .section {
+    background-color: #ffffff; /* White background for sections in light mode */
+}
+
+.light .sectionTitle {
+    color: #343a40; /* Dark gray for section titles in light mode */
+}
+
+/* Dark Theme */
+.dark {
+    background-color: #2e3032; /* Dark theme background */
+    color: #f5f5f5; /* Dark theme text color */
+}
+
+.dark .rightColumn {
+    background-color: #3a3c3e; /* Dark background for preview column */
+}
+
+.dark .section {
+    background-color: #3a3c3e; /* Dark background for sections */
+}
+
+.dark .sectionTitle {
+    color: #ffffff; /* White for section titles in dark mode */
+}
+
+/* Button Styling */
+.button {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s; /* Added transform on hover */
+    position: relative; /* For additional hover effect */
+}
+
+
+/* Button hover effect */
+.button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: scale(1.05); /* Scale effect on hover */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

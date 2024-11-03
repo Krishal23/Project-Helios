@@ -1,0 +1,53 @@
+.container {
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 800px; /* Increased width for two columns */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack title and columns vertically */
+}
+
+.title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #ff6347; /* Example color for title */
+}
+
+.columns {
+    display: flex; /* Create a flex container for two columns */
+    justify-content: space-between; /* Space out the columns */
+}
+
+.formColumn {
+    flex: 1; /* Allow form column to take equal space */
+    margin-right: 1rem; /* Space between columns */
+}
+
+.expenseColumn {
+    flex: 1; /* Allow expense column to take equal space */
+}
+
+.expenseList {
+    margin-top: 2rem;
+}
+
+.expenseList ul {
+    list-style: none;
+    padding: 0;
+}
+
+.expenseItem {
+    display: flex;
+    justify-content: space-between; /* Space between expense details and delete button */
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    color: #ff6347; /* Example color for delete button */
+    cursor: pointer;
+    font-size: 1.2rem;
+}

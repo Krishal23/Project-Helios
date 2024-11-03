@@ -1,0 +1,180 @@
+/* Container Styling */
+.container {
+    width: 100%;
+    padding: 8rem 5rem;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    border: 1px solid #9d0d0d; /* Darker border */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+
+/* Fullscreen Section */
+.resourceSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80vw;
+    height: 100vh;
+    margin-bottom: 2rem;
+    border: 1px solid #9d0d0d; /* Darker border */
+
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.dark .resourceSection{
+    border: 1px solid #565353; /* Darker border */
+
+}
+
+/* Alternate layout - Media on Left (default) */
+.leftMedia {
+    flex-direction: row;
+}
+
+/* Alternate layout - Media on Right */
+.rightMedia {
+    flex-direction: row-reverse;
+}
+
+/* Media Styling */
+.resourceMedia {
+    flex: 1;
+}
+
+.mediaContent {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Content Styling */
+.resourceContent {
+    flex: 1;
+    padding-left: 2rem;
+}
+
+.sectionTitle {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--section-title-color); /* Color adapts to light/dark theme */
+}
+
+.description {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    color: var(--description-color);
+}
+
+/* Learn More Link Styling */
+.learnMore {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.learnMore:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.05);
+}
+
+/* Icon inside Learn More button */
+.icon {
+    margin-left: 0.5rem;
+}
+
+/* Additional Resources Section */
+.additionalResources {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.moreButton {
+    margin-top: 2rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.moreButton:hover {
+    background-color: var(--hover-color);
+    transform: scale(1.05);
+}
+
+/* Light Theme */
+.light {
+    --primary-color: #ff6347; /* Orange */
+    --hover-color: #e5533d; /* Slightly darker orange */
+    --section-title-color: #343a40;
+    --description-color: #555;
+    background-color: #f9f9fb;
+    color: #333;
+}
+
+.light .resourceSection {
+    background-color: #ffffff;
+}
+
+.light .learnMore,
+.light .moreButton {
+    background-color: #ff6347;
+}
+
+.light .learnMore:hover,
+.light .moreButton:hover {
+    background-color: #e5533d;
+}
+
+/* Dark Theme */
+.dark {
+    --primary-color: #48c774; /* Green */
+    --hover-color: #3fae68; /* Darker green */
+    --section-title-color: #ffffff;
+    --description-color: #cccccc;
+    background-color: #2e3032;
+    color: #f5f5f5;
+}
+
+.dark .resourceSection {
+    background-color: #3a3c3e;
+}
+
+.dark .learnMore,
+.dark .moreButton {
+    background-color: #48c774;
+}
+
+.dark .learnMore:hover,
+.dark .moreButton:hover {
+    background-color: #3fae68;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .resourceSection {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .resourceContent {
+        padding-left: 0;
+        text-align: center;
+    }
+}

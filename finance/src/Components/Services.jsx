@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaDollarSign, FaChartLine, FaRegBell, FaBullseye, FaChartPie } from 'react-icons/fa';
 import { useTheme } from '../ThemeContext'; // Assuming you have a theme context
@@ -11,25 +10,19 @@ const Services = () => {
         {
             title: "Expense Tracking & Budgeting",
             description: "Log your expenses and manage budgets.",
-            path: "/expense-tracking",
+            path: "/expense-track",
             icon: <FaDollarSign className={styles.icon} />,
         },
         {
-            title: "Income & Savings Management",
-            description: "Track income sources and set savings goals.",
-            path: "/income-savings",
-            icon: <FaChartLine className={styles.icon} />,
-        },
-        {
-            title: "Bill & Subscription Reminders",
+            title: "Resources for Financial Independency",
             description: "Get reminders for upcoming bills and subscriptions.",
-            path: "/reminders",
+            path: "/resources",
             icon: <FaRegBell className={styles.icon} />,
         },
         {
             title: "Financial Goal Tracking (Members)",
             description: "Set and track financial goals with advanced tools.",
-            path: "/goal-tracking",
+            path: "/event-manage",
             icon: <FaBullseye className={styles.icon} />,
         },
         {
