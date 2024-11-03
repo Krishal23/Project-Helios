@@ -3,12 +3,13 @@ import logo from '../assets/logo.png';
 import styles from './styles/LoginPopup.module.css';
 import axios from 'axios';
 import { useAuth } from '../AuthContext.jsx';
+import Signup from './Signup'; // Import the Signup component
 
-function LoginPopup({ closePopup }) {
+function LoginPopup({ closePopup,openSignup }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { isAuthenticated, setIsAuthenticated } = useAuth(); // Destructure isAuthenticated from context
-
+    const [isSignup, setIsSignup] = useState(false); 
 
     const handleLogout = () => {
         localStorage.removeItem('token'); // Remove token from local storage
@@ -18,13 +19,13 @@ function LoginPopup({ closePopup }) {
     useEffect(() => {
         console.log("Authentication state updated:", isAuthenticated);
     }, [isAuthenticated]);
-    
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
         console.log("@!")
-    
+
         try {
             console.log("1")
             const response = await axios.post('http://localhost:5000/login', {
@@ -34,10 +35,10 @@ function LoginPopup({ closePopup }) {
                 withCredentials: true, // Include credentials with the request
             });
             console.log("Full response:", response);
-            console.log({response});
+            console.log({ response });
 
             console.log("11")
-            
+
             if (response.data.success) {
                 console.log("2")
                 setIsAuthenticated(true); // Set user as logged in
@@ -58,7 +59,7 @@ function LoginPopup({ closePopup }) {
             alert(message);
         }
     };
-    
+
 
     return (
         <div className={styles.popupOverlay}>
@@ -96,8 +97,15 @@ function LoginPopup({ closePopup }) {
                         Log In
                     </button>
                 </form>
+                <p>
+                    Don't have an account?{' '}
+                    <button onClick={() => { closePopup(); openSignup(); }}>
+                        Sign Up
+                    </button>
+                </p>
+
                 {/* Uncomment below if you want to show logout button conditionally */}
-                {/* {isAuthenticated && <button onClick={handleLogout}>Log Out</button>} */}
+                {isAuthenticated && <button onClick={handleLogout}>Log Out</button>}
             </div>
         </div>
     );

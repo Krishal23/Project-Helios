@@ -6,6 +6,7 @@ import logo from '../assets/logo.png';
 import logo2 from '../assets/logo2.png';
 import LoginPopup from './LoginPopup'; // Import LoginPopup component
 import ProfilePage from './ProfilePage'; // Import ProfilePage component
+import Signup from './Signup';
 import { useAuth } from '../AuthContext.jsx';
 
 function Header() {
@@ -13,9 +14,14 @@ function Header() {
     const { isLoggedIn, setIsLoggedIn } = useAuth();
     // const [isLoggedIn, setIsLoggedIn] = useState(true); // State to check if the user is logged in
     const [showPopup, setShowPopup] = useState(false); // State to show/hide login popup or profile page
+    const [isSignup, setIsSignup] = useState(false); // State for showing signup popup
 
     const togglePopup = () => {
         setShowPopup(!showPopup); // Toggle the visibility of the popup or profile page
+        setIsSignup(false);
+    };
+    const openSignup = () => {
+        setIsSignup(true);
     };
 
     return (
@@ -50,8 +56,10 @@ function Header() {
                 </nav>
             </header>
 
-            {/* Render LoginPopup if not logged in, otherwise render ProfilePage */}
-            {showPopup && !isLoggedIn && <LoginPopup closePopup={togglePopup} setIsLoggedIn={setIsLoggedIn} />}
+           {/* Render LoginPopup or Signup based on state */}
+           {showPopup && !isLoggedIn && 
+                (isSignup ? <Signup closePopup={togglePopup} /> : <LoginPopup closePopup={togglePopup} openSignup={openSignup} />)
+            }
             {showPopup && isLoggedIn && <ProfilePage closePopup={togglePopup} />}
         </>
     );
