@@ -3,14 +3,13 @@ import logo from '../assets/logo.png';
 import styles from './styles/LoginPopup.module.css';
 import axios from 'axios';
 import { useAuth } from '../AuthContext.jsx';
-import Signup from './Signup'; // Import the Signup component
+import Signup from './SignupPopup.jsx'; // Import the Signup component
 
 function LoginPopup({ closePopup,openSignup }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { isAuthenticated, setIsAuthenticated } = useAuth(); // Destructure isAuthenticated from context
-    const [isSignup, setIsSignup] = useState(false); 
-
+    
     const handleLogout = () => {
         localStorage.removeItem('token'); // Remove token from local storage
         setIsAuthenticated(false); // Update logged-in status
@@ -103,6 +102,8 @@ function LoginPopup({ closePopup,openSignup }) {
                         Sign Up
                     </button>
                 </p>
+
+                
 
                 {/* Uncomment below if you want to show logout button conditionally */}
                 {isAuthenticated && <button onClick={handleLogout}>Log Out</button>}

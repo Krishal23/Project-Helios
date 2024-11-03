@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import session from 'express-session';
 import dotenv from 'dotenv';
 import connectDB from './db.js';
 import User from './User.js';
@@ -23,10 +23,26 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
+// Session middleware
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'your_secret_key', // Use a strong secret key
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }, // Set to true if using HTTPS
+}));
+
+// Middleware to authenticate user
+const authenticateSession = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.status(401).json({ success: false, message: 'Access denied' });
+    }
+};
+
 // Signup Route
 app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
-    console.log("signiig user")
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -42,32 +58,52 @@ app.post('/signup', async (req, res) => {
 // Login Route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log("logging 1")
-    
-    
+
     try {
         const user = await User.findOne({ email });
-        
-        console.log("logging 2")
-        
         if (!user) {
             return res.status(400).json({ success: false, message: 'User not found' });
         }
-        console.log("logging 3")
-        
+
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ success: false, message: 'Invalid password' });
         }
-        
-        // Create JWT token
-        
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        console.log("logging 4")
-        res.status(200).json({ success: true, token });
+
+        // Store user information in session
+        req.session.user = {
+            id: user._id,
+            username: user.username,
+            email: user.email
+        };
+
+        res.status(200).json({ success: true, user: req.session.user });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error' });
     }
+});
+
+// Me Route
+app.get('/me', authenticateSession, async (req, res) => {
+    try {
+        const user = await User.findById(req.session.user.id).select('-password'); // Exclude password from response
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        res.json({ success: true, user });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// Logout Route
+app.post('/logout',authenticateSession, (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Could not log out' });
+        }
+        res.json({ success: true, message: 'Logged out successfully' });
+    });
 });
 
 // Test Route

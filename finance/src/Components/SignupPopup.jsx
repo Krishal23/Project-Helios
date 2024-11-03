@@ -1,9 +1,10 @@
-// Signup.jsx
 import { useState } from 'react';
 import axios from 'axios';
 import styles from './styles/Signup.module.css';
+import logo from '../assets/logo.png'; // Import logo if needed
 
-function Signup({ closePopup }) {
+function SignupPopup({ closePopup, openLogin }) {
+    const [username, setUsername] = useState(''); // New state for username
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -11,6 +12,7 @@ function Signup({ closePopup }) {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/signup', {
+                username, // Include username in the request
                 email,
                 password,
             });
@@ -31,9 +33,24 @@ function Signup({ closePopup }) {
                 <button className={styles.closeButton} onClick={closePopup}>
                     &times;
                 </button>
-                <h2>Sign Up</h2>
-                <form onSubmit={handleSignup}>
-                    <label>
+                <h2 className={styles.welcome}>
+                    Welcome to Helios
+                    <img className={styles.logo} src={logo} alt="Logo" />
+                </h2>
+                <h2 className={styles.signup}>
+                    Sign Up
+                </h2>
+                <form className={styles.signupForm} onSubmit={handleSignup}>
+                    <label className={styles.label}>
+                        Username:
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </label>
+                    <label className={styles.label}>
                         Email:
                         <input
                             type="email"
@@ -42,7 +59,7 @@ function Signup({ closePopup }) {
                             required
                         />
                     </label>
-                    <label>
+                    <label className={styles.label}>
                         Password:
                         <input
                             type="password"
@@ -51,11 +68,19 @@ function Signup({ closePopup }) {
                             required
                         />
                     </label>
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" className={styles.submitButton}>
+                        Sign Up
+                    </button>
                 </form>
+                <p>
+                    Already have an account?{' '}
+                    <button onClick={() => { closePopup(); openLogin(); }}>
+                        Log In
+                    </button>
+                </p>
             </div>
         </div>
     );
 }
 
-export default Signup;
+export default SignupPopup;

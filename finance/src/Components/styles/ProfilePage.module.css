@@ -54,3 +54,14 @@
 .submitButton:hover, .logoutButton:hover {
     background-color: #ff4500;
 }
+
+
+.closeButton {
+    background: transparent; /* No background */
+    border: none; /* No border */
+    font-size: 24px; /* Make it larger */
+    cursor: pointer; /* Cursor changes to pointer on hover */
+    position: absolute; /* Position it at the top right corner */
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+}
