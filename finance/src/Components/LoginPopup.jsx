@@ -4,6 +4,7 @@ import styles from './styles/LoginPopup.module.css';
 import axios from 'axios';
 import { useAuth } from '../AuthContext.jsx';
 import Signup from './SignupPopup.jsx'; // Import the Signup component
+import { redirect } from 'react-router-dom';
 
 function LoginPopup({ closePopup,openSignup }) {
     const [email, setEmail] = useState('');
@@ -46,6 +47,7 @@ function LoginPopup({ closePopup,openSignup }) {
                 console.log("22")
                 closePopup(); // Close popup after login
                 console.log("23")
+                
             } else {
                 console.log("3")
                 alert('Invalid credentials');

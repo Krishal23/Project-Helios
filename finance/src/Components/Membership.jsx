@@ -1,4 +1,3 @@
-// src/Components/Membership.jsx
 import { useState } from 'react';
 import { useTheme } from '../ThemeContext';
 import styles from './styles/Membership.module.css';
@@ -8,17 +7,39 @@ const Membership = () => {
     const { isDarkTheme } = useTheme();
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', interests: '', feedback: '' });
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(''); // State to store error message
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmitted(true);
-        // Optionally, handle form data submission to a backend or API
-        setFormData({ name: '', email: '', phone: '', interests: '', feedback: '' }); // Reset form fields
+
+        try {
+            const response = await fetch('http://localhost:5000/membership', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                // Successful submission
+                setIsSubmitted(true);
+                setFormData({ name: '', email: '', phone: '', interests: '', feedback: '' }); // Reset form fields
+                setErrorMessage(''); // Reset error message
+            } else {
+                // Handle errors
+                const errorData = await response.json();
+                setErrorMessage(errorData.message || 'Something went wrong. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting membership form:', error);
+            setErrorMessage('An error occurred. Please try again later.');
+        }
     };
 
     return (
@@ -114,6 +135,7 @@ const Membership = () => {
                         </div>
                         <button type="submit" className={styles.submitButton}>Have Interest in Membership?</button>
                     </form>
+                    {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
                     {isSubmitted && (
                         <div className={styles.popup}>
                             <div className={styles.popupContent}>

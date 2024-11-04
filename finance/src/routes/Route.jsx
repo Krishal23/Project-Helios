@@ -29,7 +29,7 @@ function AppRoutes() {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/membership" element={<Membership/>} />
-        {/* <Route path="/services" element={<ProtectedRoute element={<Services/>} />} /> */}
+        <Route path="/services" element={<ProtectedRoute element={<Services/>} />} />
         <Route path="/expense-track" element={<ExpenseTracking expenses={expenses} setExpenses={setExpenses} />} />
         <Route path="/event-manage" element={<ProjectEventManagement expenses={expenses} setExpenses={setExpenses} />} />
         <Route path="/notes" element={<ExecutionNotesComp setExecutionNotes={setExecutionNotes} />} />

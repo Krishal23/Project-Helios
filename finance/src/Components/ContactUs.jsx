@@ -10,14 +10,39 @@ const ContactUs = () => {
     const [email, setEmail] = useState('');
     const [query, setQuery] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(''); // State to store error message
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Submission logic here (e.g., API call)
-        setIsSubmitted(true);
-        setName('');
-        setEmail('');
-        setQuery('');
+
+        // Prepare the data to be sent
+        const contactData = { name, email, query };
+
+        try {
+            const response = await fetch('http://localhost:5000/contactus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(contactData),
+            });
+
+            if (response.ok) {
+                // Successful submission
+                setIsSubmitted(true);
+                setName('');
+                setEmail('');
+                setQuery('');
+                setErrorMessage(''); // Reset error message
+            } else {
+                // Handle errors
+                const errorData = await response.json();
+                setErrorMessage(errorData.message || 'Something went wrong. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting contact form:', error);
+            setErrorMessage('An error occurred. Please try again later.');
+        }
     };
 
     const closePopup = () => {
@@ -60,6 +85,8 @@ const ContactUs = () => {
                     </div>
                     <button type="submit" className={styles.submitButton}>Submit</button>
                 </form>
+
+                {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
 
                 {isSubmitted && (
                     <motion.div 

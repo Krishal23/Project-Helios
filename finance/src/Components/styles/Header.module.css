@@ -127,3 +127,7 @@ body {
     object-fit: cover; /* Ensures the image covers the entire area without distortion */
     border: 2px solid #ff6347; /* Optional: Add a border around the profile picture */
 }
+
+.avatarIcon{
+    margin-right: 2rem;
+}
