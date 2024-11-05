@@ -6,7 +6,7 @@ import Home from '../Components/Home'; // Assuming you have a Home component
 import ContactUs from '../Components/ContactUs';
 import Membership from '../Components/Membership';
 import Services from '../Components/Services';
-import ExpenseTracking from '../Components/ServicesComponents/EventManagement/ExpenseTracking';
+import ExpenseTracking from '../Components/ServicesComponents/ExpenseTracking';
 // import IncomeManagement from '../Components/ServicesComponents/IncomeManagement';
 import { useState } from 'react';
 import ProjectEventManagement from '../Components/ServicesComponents/ProjectEventManagement';
@@ -20,6 +20,39 @@ import ProtectedRoute from '../ProtectedRoute.jsx';
 function AppRoutes() {
   const [expenses, setExpenses] = useState([]); // State for expenses
   const [executionNotes, setExecutionNotes] = useState([]); // State for expenses
+  const [budget, setBudget] = useState(0); // Default budget value
+
+  const handleBudgetChange = async (newBudget) => {
+    console.log('Updating budget to:', newBudget); // Log the budget being sent
+    try {
+        const response = await fetch(`http://localhost:5000/budget`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ budget: newBudget }),
+            credentials: 'include', // Ensure cookies are sent with the request
+        });
+
+        console.log('Response status:', response.status); // Log the response status
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Error updating budget:', errorData.message);
+            return;
+        }
+
+        const updatedUser = await response.json();
+        console.log('Budget updated:', updatedUser.user.budget);
+        setBudget(updatedUser.user.budget);
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
+};
+
+
+
 
   return (
     <BrowserRouter>
@@ -30,7 +63,7 @@ function AppRoutes() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/membership" element={<Membership/>} />
         <Route path="/services" element={<ProtectedRoute element={<Services/>} />} />
-        <Route path="/expense-track" element={<ExpenseTracking expenses={expenses} setExpenses={setExpenses} />} />
+        <Route path="/expense-track" element={<ExpenseTracking expenses={expenses} setExpenses={setExpenses} budget={budget} onBudgetChange={handleBudgetChange}/>} />
         <Route path="/event-manage" element={<ProjectEventManagement expenses={expenses} setExpenses={setExpenses} />} />
         <Route path="/notes" element={<ExecutionNotesComp setExecutionNotes={setExecutionNotes} />} />
         <Route path="/visual-reports" element={<VisualReports expenses={expenses}/>} />

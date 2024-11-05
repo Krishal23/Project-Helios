@@ -23,9 +23,17 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: 'This is a short bio.' // Default bio
     },
+    expenses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Expense' // Reference to the Expense model
+    }],
     phone: {
         type: String,
         default: '' // Empty by default, can be updated by the user
+    },
+    budget: {
+        type: Number,
+        default:0,
     }
 }, { timestamps: true });
 

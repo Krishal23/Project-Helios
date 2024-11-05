@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import connectDB from './db.js';
 import MongoStore from 'connect-mongo';
 import Membership from './Membership.js';
+import Expense from './models/services/Expense.js';
 
 
 import User from './User.js';
@@ -36,19 +37,22 @@ app.use(session({
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: { secure: false }, // Set to true if using HTTPS
+    maxAge: 1000 * 60 * 60 * 24 // Session valid for 24 hours
 }));
 
 // Middleware to authenticate user
 const authenticateSession = (req, res, next) => {
-    console.log("authenticating32")
+    console.log("authenticating32");
     if (req.session.user) {
-        console.log("authenticating done")
+        console.log("authenticating done");
+        req.user = { _id: req.session.user.id }; // Set req.user
         next();
     } else {
-        console.log("authenticating deni")
+        console.log("authenticating denied");
         res.status(401).json({ success: false, message: 'Access denied' });
     }
 };
+
 
 // Signup Route
 app.post('/signup', async (req, res) => {
@@ -167,8 +171,239 @@ app.post('/membership', async (req, res) => {
 });
 
 
+//Services
+
+
+// API route to add an expense
+// API route to add an expense
+app.post('/expenses', authenticateSession, async (req, res) => {
+    const { amount, category, date, notes } = req.body;
+
+    // Validate required fields
+    if (!amount || !category || !date) {
+        return res.status(400).json({ message: 'Amount, category, and date are required.' });
+    }
+
+    try {
+        const userId = req.session.user.id;
+
+        // Create a new expense
+        const newExpense = new Expense({
+            amount,
+            category,
+            date,
+            notes,
+            user: userId, // Associate expense with the user
+        });
+
+        // Save the expense to the database
+        const savedExpense = await newExpense.save();
+
+        // Update the user's expenses array with the new expense ID
+        await User.findByIdAndUpdate(
+            userId,
+            { $push: { expenses: savedExpense._id } }, // Push the new expense ID into the user's expenses array
+            { new: true } // Return the updated user document
+        );
+
+        res.status(201).json(savedExpense);
+    } catch (error) {
+        console.error(error); // Log error for debugging
+        res.status(500).json({ message: 'Server error, could not save expense.' });
+    }
+});
+
+
+// Route to get all expenses for the authenticated user
+app.get('/get-expenses', authenticateSession, async (req, res) => {
+    try {
+        // Retrieve user ID from the session
+        const userId = req.session.user.id;
+        console.log("User ID from session:", userId);
+
+        // Find the user by ID
+        const user = await User.findById(userId).populate('expenses'); // Populate the expenses field
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found.' });
+        }
+
+        // Access the expenses array
+        const expenses = user.expenses; // This will already contain populated Expense documents
+
+        console.log("Expenses retrieved:", expenses);
+
+        // Respond with the expenses
+        res.status(200).json({
+            success: true,
+            expenses
+        });
+    } catch (error) {
+        console.error('Error fetching expenses:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+});
+
+// Route to delete an expense by its ID
+app.delete('/expenses/:id', authenticateSession, async (req, res) => {
+    try {
+        const expenseId = req.params.id;
+
+        // Find the expense and ensure it belongs to the logged-in user
+        const expense = await Expense.findOneAndDelete({ _id: expenseId, user: req.session.user.id });
+
+        if (!expense) {
+            return res.status(404).json({ success: false, message: 'Expense not found or unauthorized.' });
+        }
+
+        res.status(200).json({ success: true, message: 'Expense deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting expense:', error);
+        res.status(500).json({ success: false, message: 'Server error, could not delete expense.' });
+    }
+});
+
+
+// Route to update an existing expense by its ID
+app.put('/expenses/:id', authenticateSession, async (req, res) => {
+    try {
+        const { amount, category, date, notes } = req.body;
+        const expenseId = req.params.id;
+
+        // Validate required fields
+        if (!amount || !category || !date) {
+            return res.status(400).json({ success: false, message: 'Amount, category, and date are required.' });
+        }
+
+        // Find the expense and ensure it belongs to the user
+        const expense = await Expense.findOneAndUpdate(
+            { _id: expenseId, user: req.session.user.id },
+            { amount, category, date, notes },
+            { new: true } // Return the updated document
+        );
+
+        if (!expense) {
+            return res.status(404).json({ success: false, message: 'Expense not found or unauthorized.' });
+        }
+
+        res.status(200).json({ success: true, message: 'Expense updated successfully', expense });
+    } catch (error) {
+        console.error('Error updating expense:', error);
+        res.status(500).json({ success: false, message: 'Server error, could not update expense.' });
+    }
+});
+
+
+// app.put('/budget', async (req, res) => {
+//     try {
+//         const { budget } = req.body;
+//         console.log(budget, "fsdfd")
+//         console.log(req.session.user)
+//         const user = await User.findById(req.session.user.id).select('-password'); // Exclude password from response
+//         if (!user) {
+//             return res.status(404).json({ success: false, message: 'User not found' });
+//         }
+//          // Update the user's budget
+//          console.log(user.budget)
+//          user.budget = budget; // Set the new budget
+         
+         
+//          // Save the updated user document
+//          await user.save(); // Save the changes to the database
+         
+//          console.log(user.budget)
+ 
+//          // Respond with the updated user information
+//          res.status(200).json({
+//              success: true,
+//              message: 'Budget updated successfully',
+//              user: {
+//                  username: user.username,
+//                  email: user.email,
+//                  budget: user.budget,
+//              },
+//          });
+
+        
+
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: 'Server error' });
+//     }
+// });
+
+
+
+
 
 // Start the server
+
+app.put('/budget', async (req, res) => {
+    try {
+        const { budget } = req.body;
+
+        // Debugging output
+        console.log("Request Body:", req.body);
+        console.log("User Session:", req.session.user);
+
+        // Check if the user ID is present in the session
+        if (!req.session.user || !req.session.user.id) {
+            return res.status(401).json({ success: false, message: 'User not authenticated' });
+        }
+
+        const user = await User.findById(req.session.user.id).select('-password'); // Exclude password from response
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Update the user's budget
+        console.log("Current Budget:", user.budget);
+        user.budget = budget; // Set the new budget
+
+        // Save the updated user document
+        await user.save(); // Save the changes to the database
+
+        console.log("Updated Budget:", user.budget);
+
+        // Respond with the updated user information
+        res.status(200).json({
+            success: true,
+            message: 'Budget updated successfully',
+            user: {
+                username: user.username,
+                email: user.email,
+                budget: user.budget,
+            },
+        });
+
+    } catch (error) {
+        console.error('Error updating budget:', error); // Log the error for debugging
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+app.get('/budget', async (req, res) => {
+    try {
+        // Ensure the user is logged in and has a session
+        if (!req.session.user) {
+            return res.status(401).json({ success: false, message: 'Unauthorized' });
+        }
+
+        const user = await User.findById(req.session.user.id).select('-password'); // Exclude password from response
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Respond with the user's budget
+        res.status(200).json({
+            success: true,
+            budget: user.budget,
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -1,10 +1,11 @@
-import LogExpense from '../ExpenseTrack/LogExpense';
-import TrackBudget from '../ExpenseTrack/TrackBudget';
-import { useTheme } from '../../../ThemeContext';
-import styles from '../../styles/ExpenseTracking.module.css';
+import LogExpense from './ExpenseTrack/LogExpense';
+import TrackBudget from './ExpenseTrack/TrackBudget';
+import { useTheme } from '../../ThemeContext';
+import styles from '../styles/ExpenseTracking.module.css';
 
-const ExpenseTracking = ({expenses,setExpenses}) => {
+const ExpenseTracking = ({expenses,setExpenses, budget, onBudgetChange}) => {
     const { isDarkTheme } = useTheme(); // Access the theme
+
 
     return (
         <div className={`${styles.container} ${isDarkTheme ? styles.dark : styles.light}`}>
@@ -12,7 +13,7 @@ const ExpenseTracking = ({expenses,setExpenses}) => {
             <p className={styles.subtitle}>Manage your finances with our comprehensive tools.</p>
             <div className={styles.features}>
                 <LogExpense expenses={expenses} setExpenses={setExpenses} /> {/* Pass expenses and setExpenses */}
-                <TrackBudget loggedExpenses={expenses} /> {/* Pass expenses to TrackBudget */}
+                <TrackBudget loggedExpenses={expenses} budget={budget} onBudgetChange={onBudgetChange} /> {/* Pass expenses to TrackBudget */}
             </div>
         </div>
     );
