@@ -10,6 +10,7 @@ import connectDB from './db.js';
 import MongoStore from 'connect-mongo';
 import Membership from './Membership.js';
 import Expense from './models/services/Expense.js';
+import ProjectManagement from './ProjectManagement.js';
 
 
 import User from './User.js';
@@ -294,49 +295,6 @@ app.put('/expenses/:id', authenticateSession, async (req, res) => {
 });
 
 
-// app.put('/budget', async (req, res) => {
-//     try {
-//         const { budget } = req.body;
-//         console.log(budget, "fsdfd")
-//         console.log(req.session.user)
-//         const user = await User.findById(req.session.user.id).select('-password'); // Exclude password from response
-//         if (!user) {
-//             return res.status(404).json({ success: false, message: 'User not found' });
-//         }
-//          // Update the user's budget
-//          console.log(user.budget)
-//          user.budget = budget; // Set the new budget
-         
-         
-//          // Save the updated user document
-//          await user.save(); // Save the changes to the database
-         
-//          console.log(user.budget)
- 
-//          // Respond with the updated user information
-//          res.status(200).json({
-//              success: true,
-//              message: 'Budget updated successfully',
-//              user: {
-//                  username: user.username,
-//                  email: user.email,
-//                  budget: user.budget,
-//              },
-//          });
-
-        
-
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: 'Server error' });
-//     }
-// });
-
-
-
-
-
-// Start the server
-
 app.put('/budget', async (req, res) => {
     try {
         const { budget } = req.body;
@@ -402,6 +360,238 @@ app.get('/budget', async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
+
+
+// API route to add an event plan
+app.post('/event-planning', authenticateSession, async (req, res) => {
+    const { eventName, date, location, attendees, notes } = req.body;
+
+    // Validate required fields
+    if (!eventName || !date || !location || !attendees) {
+        return res.status(400).json({ message: 'Event name, date, location, and number of attendees are required.' });
+    }
+
+    try {
+        const userId = req.session.user.id; // Extract user ID from session
+
+        // Create a new event plan object
+        const newEventPlan = {
+            eventName,
+            date,
+            location,
+            attendees,
+            notes,
+            userId, // Associate event plan with the user
+        };
+
+        // Create a new ProjectManagement document with the event planning
+        const newProjectManagement = new ProjectManagement({
+            userId,
+            eventPlanning: newEventPlan, // Add the event planning object here
+        });
+
+        // Save the new ProjectManagement document
+        const savedProjectManagement = await newProjectManagement.save();
+
+        // Add the saved ProjectManagement ID to the user's projectManagementIds array
+        await User.findByIdAndUpdate(
+            userId,
+            { $addToSet: { projectManagementIds: savedProjectManagement._id } }, // Ensure no duplicates using $addToSet
+            { new: true } // Return the updated user document
+        );
+
+        res.status(201).json(savedProjectManagement); // Return the saved project management with the event planning
+
+    } catch (error) {
+        console.error(error); // Log error for debugging
+        res.status(500).json({ message: 'Server error, could not save event plan.' });
+    }
+});
+
+
+
+
+// API to list all event names with their ProjectManagement IDs for the logged-in user
+app.get('/get-events', async (req, res) => {
+    try {
+        console.log(req.session.user)
+        const user = await User.findById(req.session.user.id).select('-password'); // Exclude password from response
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'Unauthorized' });
+
+        }
+
+        console.log(user.projectManagementIds);
+
+
+        // Fetch all ProjectManagement documents by their IDs
+        const projectManagements = await ProjectManagement.find({
+            _id: { $in: user.projectManagementIds }
+        }).select('eventPlanning.eventName'); // Select only eventName from eventPlanning
+
+        console.log("AFdsgf")
+        console.log(projectManagements)
+
+        // Map the response to include ProjectManagement ID and eventName
+        const events = projectManagements.map(project => ({
+            projectId: project._id,
+            eventName: project.eventPlanning.eventName
+        }));
+
+        console.log(events)
+
+        res.json({ success: true, events });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+
+// API route to add financial model
+app.post('/financial-model', authenticateSession, async (req, res) => {
+    const { budget, income, profitMargin, projectId } = req.body;
+    // Validate required fields
+    if (!budget || !income || profitMargin === undefined) {
+        return res.status(400).json({ message: 'Budget, income, and profit margin are required.' });
+    }
+
+    try {
+        const userId = req.session.user.id; // Extract user ID from session
+
+        // Create a new financial modeling object
+        const newFinancialModel = {
+            budget,
+            income,
+            profitMargin,
+            userId, // Associate financial model with the user
+        };
+        console.log(newFinancialModel, projectId)
+        // Find the project by projectId and update the financialModeling field
+        const updatedProject = await ProjectManagement.findByIdAndUpdate(
+            projectId, // Find project by ID
+            {
+                $set: { financialModeling: newFinancialModel }, // Update the financialModeling field
+            },
+            { new: true } // Return the updated project document
+        );
+
+        if (!updatedProject) {
+            return res.status(404).json({ message: 'Project not found.' });
+        }
+
+        // Send the updated project with the new financial model
+        res.status(200).json(updatedProject);
+
+
+        console.log(updatedProject)
+
+    } catch (error) {
+        console.error(error); // Log error for debugging
+        res.status(500).json({ message: 'Server error, could not save financial model.' });
+    }
+});
+
+// API route to add financial model notes to a project
+app.post('/notes', async (req, res) => {
+    const { notes, category, importance, dateTime, projectId } = req.body;
+
+    // Validate required fields
+    if (!notes || !category || !importance || !dateTime) {
+        return res.status(400).json({ message: 'Notes, category, importance, and date/time are required.' });
+    }
+
+    try {
+        const userId = req.session.user.id; // Extract user ID from session
+        console.log(userId);
+
+        // Find the project by projectId
+        const project = await ProjectManagement.findOne({ _id: projectId });
+        console.log(project);
+
+        // Check if project exists
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found.' });
+        }
+
+        const eventName = project.eventPlanning?.eventName;
+        console.log(eventName);
+
+        // Create a new note object
+        const newNote = {
+            notes,
+            category,
+            eventName, // Store eventName as part of the note
+            importance: importance || 'Normal', // Default importance if not provided
+            dateTime
+        };
+
+        console.log(newNote);
+
+        // Push the new note to the executionNotes array
+        project.executionNotes.push(newNote);
+
+        // Save the updated project
+        await project.save();
+
+        res.status(200).json({ message: 'Note added successfully.', project });
+    } catch (error) {
+        console.error(error); // Log error for debugging
+        res.status(500).json({ message: 'Server error, could not save financial model.' });
+    }
+});
+// API route to add financial model notes to a project
+// API route to get financial model notes for a project
+app.get('/notes/:projectId', authenticateSession, async (req, res) => {
+    const { projectId } = req.params;  // Extract projectId from the URL
+    console.log("Project ID: ", projectId);  // Logging the projectId
+
+    try {
+        // Find the project by projectId
+        const project = await ProjectManagement.findOne({ _id: projectId });
+
+        // Check if project exists
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found.' });
+        }
+
+        // Extract notes from the project
+        const notes = project.executionNotes || [];  // Ensure it's an array, even if empty
+        console.log("Notes: ", notes);
+
+        // Respond with the notes
+        res.status(200).json({ message: 'Notes fetched successfully.', notes });
+    } catch (error) {
+        console.error("Error fetching notes: ", error);  // Log the error for debugging
+        res.status(500).json({ message: 'Server error, could not fetch notes.' });
+    }
+});
+
+
+app.get('/preview-event/:projectId',authenticateSession,async(req,res)=>{
+    const { projectId } = req.params;  // Extract projectId from the URL
+    console.log("Project ID: ", projectId);  // Logging the projectId
+    try {
+        // Find the project by projectId
+        const project = await ProjectManagement.findOne({ _id: projectId });
+
+        // Check if project exists
+        if (!project) {
+            return res.status(404).json({ message: 'Event not found.' });
+        }
+
+        // Extract the project
+       
+        console.log("Notes: ", project);
+
+        // Respond with the notes
+        res.status(200).json({ message: 'Event fetched successfully.', project });
+    } catch (error) {
+        console.error("Error fetching notes: ", error);  // Log the error for debugging
+        res.status(500).json({ message: 'Server error, could not fetch notes.' });
+    }
+
+})
+
 
 
 const PORT = process.env.PORT || 5000;

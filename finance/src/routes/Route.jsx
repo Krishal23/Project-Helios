@@ -22,6 +22,8 @@ function AppRoutes() {
   const [executionNotes, setExecutionNotes] = useState([]); // State for expenses
   const [budget, setBudget] = useState(0); // Default budget value
 
+  
+
   const handleBudgetChange = async (newBudget) => {
     console.log('Updating budget to:', newBudget); // Log the budget being sent
     try {

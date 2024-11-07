@@ -12,20 +12,65 @@ const EventPlanning = () => {
         attendees: '',
         notes: ''
     });
+    const [error, setError] = useState(null); // To handle error messages
+    const [successMessage, setSuccessMessage] = useState(null); // To handle success message
 
     const handleChange = (e) => {
         setEventDetails({ ...eventDetails, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic
-        console.log(eventDetails);
+        console.log('1');
+        
+        try {
+            console.log('2');
+            const response = await fetch('http://localhost:5000/event-planning', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(eventDetails),
+                credentials: 'include', // Ensure cookies are sent with the request
+            });
+            console.log('3', response);
+            
+            const data = await response.json();
+            console.log('4', data);
+            
+            if (response.ok) {
+                console.log('5');
+                setSuccessMessage('Event planned successfully!');
+                setError(null); // Reset error if successful
+                // Optionally, reset the form
+                setEventDetails({
+                    eventName: '',
+                    date: '',
+                    location: '',
+                    attendees: '',
+                    notes: ''
+                });
+                console.log(eventDetails);
+            } else {
+                console.log('6');
+                setError(data.message || 'Error occurred while planning the event.');
+                setSuccessMessage(null); // Reset success message if there's an error
+            }
+        } catch (error) {
+            console.log('7');
+            setError('Server error. Please try again later.');
+            setSuccessMessage(null); // Reset success message if there's an error
+        }
     };
 
     return (
         <div className={`${styles.container} ${isDarkTheme ? styles.dark : styles.light}`}>
             <h2 className={styles.title}>Event Planning</h2>
+            
+            {/* Display error or success message */}
+            {error && <div className={styles.error}>{error}</div>}
+            {successMessage && <div className={styles.success}>{successMessage}</div>}
+            
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.column}>
                     <div className={styles.inputGroup}>

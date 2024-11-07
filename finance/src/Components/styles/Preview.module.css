@@ -1,0 +1,123 @@
+.rightColumn {
+    width: 30%;
+    background-color: #f7f9fc;
+    border-left: 2px solid #e0e0e0;
+    padding: 8px;
+    /* border: 1px solid #9d0d0d; Darker border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute; /* Sticks header to the top */
+    margin-right: 2rem;
+    height: auto;
+    overflow-y: auto;
+
+}
+
+.previewTitle {
+    font-size: 1.5em;
+    color: #4a4a4a;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.dropdownContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+    
+}
+
+.dropdown {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    background-color: #fff;
+    cursor: pointer;
+    color: black;
+}
+
+.previewContent {
+    margin-top: 1em;
+    color: #333;
+}
+
+.infoCard {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.infoCard h4 {
+    font-size: 1.2em;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.infoCard p {
+    display: flex;
+    align-items: center;
+    margin: 0.5em 0;
+}
+
+.infoCard p svg {
+    margin-right: 0.5em;
+    color: #4a90e2;
+}
+
+
+/* EventDropdown.module.css */
+
+.eventDropdown {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    font-family: Arial, sans-serif;
+}
+
+.label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.selectWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+
+}
+
+.eventSelect {
+    width: 100%;
+    background-color: #cfada645;
+
+    padding: 10px 12px;
+    padding-right: 30px; /* Make room for the icon */
+    font-size: 1rem;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    appearance: none; /* Removes default browser arrow */
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.eventSelect:hover {
+    border-color: #0073e6;
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #0073e6;
+    font-size: 1.2rem;
+}

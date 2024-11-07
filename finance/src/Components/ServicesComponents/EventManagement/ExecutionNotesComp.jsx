@@ -1,16 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrashAlt, FaStar, FaRegStar } from 'react-icons/fa';
 import { useTheme } from '../../../ThemeContext';
 import styles from '../../styles/ExecutionNotesComp.module.css';
 
-const ExecutionNotesComp = ({ setExecutionNotes }) => {
-    const { isDarkTheme, toggleTheme } = useTheme();
+const ExecutionNotesComp = ({ events }) => {
+    const { isDarkTheme } = useTheme();
     const [notes, setNotes] = useState('');
     const [category, setCategory] = useState('');
-    const [event, setEvent] = useState('');
+    const [selectedEvent, setSelectedEvent] = useState(''); // Store selected event's ID for saving notes
+    const [selectedDisplayEvent, setSelectedDisplayEvent] = useState(''); // Store selected event for displaying notes
     const [importance, setImportance] = useState('Normal');
     const [editIndex, setEditIndex] = useState(null);
     const [savedNotes, setSavedNotes] = useState([]);
+
+
+
+
+
+    // Fetch notes when the selected display event changes
+    useEffect(() => {
+        if (selectedDisplayEvent) {
+            fetchNotes(selectedDisplayEvent.projectId);
+        }
+    }, [selectedDisplayEvent]);
+
+    // Function to fetch notes for the selected event
+    const fetchNotes = async (projectId) => {
+        try {
+            const response = await fetch(`http://localhost:5000/notes/${projectId}`, {
+                method: 'GET',
+                credentials: 'include', // Include session cookies
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setSavedNotes(data.notes || []);
+            } else {
+                console.error('Error fetching notes:', data.message);
+                setSavedNotes([]);
+            }
+        } catch (error) {
+            console.error('Error fetching notes:', error);
+        }
+    };
 
     const handleNotesChange = (e) => {
         setNotes(e.target.value);
@@ -20,62 +51,74 @@ const ExecutionNotesComp = ({ setExecutionNotes }) => {
         setCategory(e.target.value);
     };
 
-    const handleEventChange = (e) => {
-        setEvent(e.target.value);
+    const handleSaveEventChange = (e) => {
+        const event = events.find(event => event.eventName === e.target.value);
+        setSelectedEvent(event); // Set the selected event for saving the note
+    };
+
+    const handleDisplayEventChange = (e) => {
+        const event = events.find(event => event.eventName === e.target.value);
+        setSelectedDisplayEvent(event); // Set the selected event for displaying the notes
     };
 
     const handleImportanceToggle = () => {
         setImportance((prev) => (prev === 'High' ? 'Low' : 'High'));
     };
 
-    const handleSaveNote = () => {
+    const handleSaveNote = async () => {
+
+        console.log("1")
         const dateTime = new Date().toLocaleString();
         const newNote = {
             notes,
             category,
-            event,
             importance,
             dateTime,
+            projectId: selectedEvent.projectId,
         };
+        console.log(newNote)
 
-        if (editIndex !== null) {
-            const updatedNotes = savedNotes.map((note, index) =>
-                index === editIndex ? newNote : note
-            );
-            setSavedNotes(updatedNotes);
-            setEditIndex(null);
-        } else {
-            setSavedNotes([...savedNotes, newNote]);
+        // Save the note to the backend
+        try {
+            const response = await fetch('http://localhost:5000/notes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newNote),
+                credentials: 'include', // Important for sending session cookies
+            });
+
+            console.log(response)
+            const data = await response.json();
+            console.log("fgchvbjn,m.")
+            console.log(data)
+            if (response.ok) {
+                setSavedNotes((prevNotes) => [...prevNotes, newNote]);
+            } else {
+                console.error('Error saving note:', data.message);
+            }
+        } catch (error) {
+            console.error('Error saving note:', error);
         }
-        
-        // Reset fields
+
+        // Reset fields after saving
         setNotes('');
         setCategory('');
-        setEvent('');
+        setSelectedEvent('');
         setImportance('Normal');
-        setExecutionNotes(savedNotes);
     };
 
     const handleEditNote = (index) => {
-        const noteToEdit = savedNotes[index];
-        setNotes(noteToEdit.notes);
-        setCategory(noteToEdit.category);
-        setEvent(noteToEdit.event);
-        setImportance(noteToEdit.importance);
-        setEditIndex(index);
+        console.log("editing");
     };
 
-    const handleDeleteNote = (index) => {
-        const updatedNotes = savedNotes.filter((_, i) => i !== index);
-        setSavedNotes(updatedNotes);
-        setExecutionNotes(updatedNotes);
+    const handleDeleteNote = async (index) => {
+        console.log("deleting");
     };
 
     return (
-
-        <div className={`${styles.component} ${isDarkTheme ? styles.dark : styles.light}`}>
-        <div className={`${styles.executionNotes} ${isDarkTheme ? styles.dark : styles.light}`}>
-            <h3 className={styles.title}>Execution Notes</h3>
+        <div className={`${isDarkTheme ? styles.dark : styles.light}`}>
             <textarea
                 value={notes}
                 onChange={handleNotesChange}
@@ -89,13 +132,23 @@ const ExecutionNotesComp = ({ setExecutionNotes }) => {
                 value={category}
                 onChange={handleCategoryChange}
             />
-            <input
-                type="text"
-                className={styles.eventInput}
-                placeholder="Event"
-                value={event}
-                onChange={handleEventChange}
-            />
+            <div className={styles.eventDropdown}>
+                <label htmlFor="saveEvent">Select Event to Save Note:</label>
+                <select
+                    id="saveEvent"
+                    value={selectedEvent.eventName || ''}
+                    onChange={handleSaveEventChange}
+                    className={styles.eventSelect}
+                >
+                    <option value="">--Select an Event--</option>
+                    {events.map((event) => (
+                        <option key={event.projectId} value={event.eventName}>
+                            {event.eventName}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
             <div className={styles.importanceToggle}>
                 <span>Importance:</span>
                 <button className={styles.toggleButton} onClick={handleImportanceToggle}>
@@ -103,9 +156,27 @@ const ExecutionNotesComp = ({ setExecutionNotes }) => {
                     {importance}
                 </button>
             </div>
+
             <button className={styles.saveButton} onClick={handleSaveNote}>
                 {editIndex !== null ? 'Update Note' : 'Save Note'}
             </button>
+
+            <div className={styles.eventDropdown}>
+                <label htmlFor="displayEvent">Select Event to Display Notes:</label>
+                <select
+                    id="displayEvent"
+                    value={selectedDisplayEvent.eventName || ''}
+                    onChange={handleDisplayEventChange}
+                    className={styles.eventSelect}
+                >
+                    <option value="">--Select an Event--</option>
+                    {events.map((event) => (
+                        <option key={event.projectId} value={event.eventName}>
+                            {event.eventName}
+                        </option>
+                    ))}
+                </select>
+            </div>
 
             <div className={styles.notesContainer}>
                 <h4>Saved Notes</h4>
@@ -132,8 +203,6 @@ const ExecutionNotesComp = ({ setExecutionNotes }) => {
                 )}
             </div>
         </div>
-        </div>
-
     );
 };
 

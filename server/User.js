@@ -34,7 +34,11 @@ const UserSchema = new mongoose.Schema({
     budget: {
         type: Number,
         default:0,
-    }
+    },
+    projectManagementIds: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ProjectManagement', 
+    }],
 }, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);

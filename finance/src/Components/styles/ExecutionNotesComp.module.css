@@ -156,3 +156,56 @@
 .noteCard:hover {
     border-color: #ff6347; /* Highlight border on hover */
 }
+
+
+
+/* EventDropdown.module.css */
+
+.eventDropdown {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    font-family: Arial, sans-serif;
+}
+
+.label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.selectWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+
+}
+
+.eventSelect {
+    width: 100%;
+    background-color: #cfada645;
+
+    padding: 10px 12px;
+    padding-right: 30px; /* Make room for the icon */
+    font-size: 1rem;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    appearance: none; /* Removes default browser arrow */
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.eventSelect:hover {
+    border-color: #0073e6;
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #0073e6;
+    font-size: 1.2rem;
+}

@@ -3,7 +3,7 @@ import styles from '../../styles/PreviousProjects.module.css'; // Import your st
 const PreviousProjects = ({ previousProjects }) => {
     return (
         <div className={styles.previousProjectsContainer}>
-            <h2>Previous Projects</h2>
+            <h2>Previous Events</h2>
             {previousProjects.length > 0 ? (
                 previousProjects.map((project, index) => (
                     <div key={index} className={styles.projectCard}>

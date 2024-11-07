@@ -135,3 +135,52 @@
 .themeToggle:hover {
     background-color: #ff4500; /* Darker shade on hover */
 }
+
+/* InputGroup.module.css */
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    font-family: Arial, sans-serif;
+}
+
+.label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.selectWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.dropdown {
+    width: 100%;
+    background-color: #cfada645;
+    padding: 10px 12px;
+    padding-right: 30px; /* Space for icon */
+    font-size: 1rem;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    appearance: none; /* Remove default browser arrow */
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.dropdown:hover {
+    border-color: #0073e6;
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Make icon non-clickable */
+    color: #0073e6;
+    font-size: 1.2rem;
+}

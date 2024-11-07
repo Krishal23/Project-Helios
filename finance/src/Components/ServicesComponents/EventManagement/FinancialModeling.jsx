@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useTheme } from '../../../ThemeContext'; // Importing useTheme
@@ -7,7 +7,8 @@ import styles from '../../styles/FinancialModeling.module.css';
 // Register components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const FinancialModeling = ({ setFinancialData }) => {
+const FinancialModeling = ({ events }) => {
+    const [selectedEvent, setSelectedEvent] = useState(null); // Store selected event with projectId
     const [budget, setBudget] = useState({
         venue: 0,
         catering: 0,
@@ -33,13 +34,46 @@ const FinancialModeling = ({ setFinancialData }) => {
         setIncome({ ...income, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleEventChange = (e) => {
+        const selected = events.find(event => event.projectId === e.target.value); // Find the selected event
+        setSelectedEvent(selected); // Set the selected event object
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setFinancialData({
-            budget,
-            income,
-            profitMargin,
-        });
+        if (selectedEvent) {
+            console.log(selectedEvent);
+            const financialData = {
+                budget,
+                income,
+                profitMargin,
+                projectId: selectedEvent.projectId, // Use selected projectId
+            };
+            console.log(financialData);
+
+            try {
+                const response = await fetch('http://localhost:5000/financial-model', {
+                    method: 'POST',
+                    credentials: 'include', // Important for sending cookies/session info
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(financialData),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log(data);
+
+            } catch (error) {
+                console.error('Error saving financial data:', error);
+            }
+        } else {
+            console.log('Please select an event');
+        }
     };
 
     // Use theme context
@@ -49,6 +83,21 @@ const FinancialModeling = ({ setFinancialData }) => {
         <div className={`${styles.container} ${isDarkTheme ? styles.dark : styles.light}`}>
             <h2 className={styles.title}>Financial Modeling</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.section}>
+                    <h3>Select Event</h3>
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="event-select">Choose an Event:</label>
+                        <select id="event-select" onChange={handleEventChange} className={styles.dropdown}>
+                            <option value="">Select an Event</option>
+                            {events.map((event) => (
+                                <option key={event.projectId} value={event.projectId}>
+                                    {event.eventName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
                 <div className={styles.section}>
                     <h3>Budget Overview</h3>
                     {Object.keys(budget).map((key) => (

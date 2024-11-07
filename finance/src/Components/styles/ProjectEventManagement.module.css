@@ -27,19 +27,13 @@
 
 /* Left Column Styling */
 .leftColumn {
-    flex: 0.5; /* Take available space */
+    width: 65%;
 
 }
 
 /* Right Column Styling */
 .rightColumn {
-    flex: 1.4; /* Fixed width for preview column */
-    padding: 1.5rem; 
-    background-color: var(--preview-background); /* Distinct background for preview */
-    border-radius: 8px;
-    /* max-height: 82vh; */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto; /* Allow scrolling if content overflows */
+   /* border: 1px solid #d53939; */
 }
 
 
