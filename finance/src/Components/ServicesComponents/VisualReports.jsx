@@ -6,7 +6,7 @@ import ExpensesSection from './VisualReports/ExpensesSection';
 import styles from '../styles/VisualReports.module.css';
 
 const VisualReports = ({ expenses, events, budget }) => {
-    const [activeSection, setActiveSection] = useState('events');
+    const [activeSection, setActiveSection] = useState('expenses');
 
     // Handlers to toggle sections
     const showEvents = () => setActiveSection('events');
@@ -14,11 +14,11 @@ const VisualReports = ({ expenses, events, budget }) => {
 
     return (
         <div className={styles.visualReportsContainer}>
-            <ToggleButtons
+            {/* <ToggleButtons
                 activeSection={activeSection}
                 onShowEvents={showEvents}
                 onShowExpenses={showExpenses}
-            />
+            /> */}
 
             <div className={styles.sectionContent}>
                 {activeSection === 'events' ? (

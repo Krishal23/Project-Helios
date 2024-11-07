@@ -3,7 +3,7 @@
     transition: background 0.3s, color 0.3s;
     border: 1px solid #c20303;
     overflow-y: auto; /* Enable vertical scrolling */
-    margin-top: 80vh;
+    /* margin-top: 80vh; */
 }
 
 .light {
