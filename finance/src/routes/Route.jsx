@@ -8,7 +8,7 @@ import Membership from '../Components/Membership';
 import Services from '../Components/Services';
 import ExpenseTracking from '../Components/ServicesComponents/ExpenseTracking';
 // import IncomeManagement from '../Components/ServicesComponents/IncomeManagement';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProjectEventManagement from '../Components/ServicesComponents/ProjectEventManagement';
 import ExecutionNotesComp from '../Components/ServicesComponents/EventManagement/ExecutionNotesComp';
 import VisualReports from '../Components/ServicesComponents/VisualReports';
@@ -23,35 +23,135 @@ function AppRoutes() {
   const [budget, setBudget] = useState(0); // Default budget value
 
   
+  const [events, setEvents] = useState([]);
+
+
+  // Fetch events when the component mounts
+  useEffect(() => {
+    const fetchEvents = async () => {
+      console.log("1")
+      try {
+        const response = await fetch('http://localhost:5000/get-events', {
+          method: 'GET',
+          credentials: 'include', // Include session cookies
+        });
+        console.log("2", response)
+        const data = await response.json();
+        console.log("3")
+
+        console.log(data)
+        if (data.success) {
+          setEvents(data.events);  // Set the events state
+          console.log("fdg", events)
+
+        } else {
+          console.log(data.message);
+        }
+      } catch (err) {
+        console.log('Failed to fetch events', err);
+      } finally {
+        console.log(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+
+
+  // Fetch expenses on mount
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/get-expenses', {
+          method: 'GET',
+          credentials: 'include', // Include session cookies
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+          setExpenses(data.expenses);
+          console.log("Expenses:", data.expenses); // Log the expenses
+        } else {
+          console.log('Failed to fetch expenses.');
+        }
+      } catch (error) {
+        console.log('Error fetching expenses:', error);
+        console.log('An error occurred while fetching expenses.');
+      } finally {
+        console.log(false);
+      }
+    };
+
+    fetchExpenses();
+  }, []);
+
+
+  
+  useEffect(() => {
+    // Fetch the budget from the server
+    const fetchBudget = async () => {
+        console.log("1")
+        try {
+            const response = await fetch('http://localhost:5000/budget', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include' // Ensure credentials are sent
+            });
+            console.log("2", response)
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.log(errorData.message);
+                return;
+            }
+
+            const data = await response.json();
+            console.log(budget,"asfdgsf")
+            setBudget(data.budget);
+            
+        } catch (error) {
+            console.error('Error fetching budget:', error);
+        }
+    };
+
+    fetchBudget();
+}, []);
+
+
+
+
 
   const handleBudgetChange = async (newBudget) => {
     console.log('Updating budget to:', newBudget); // Log the budget being sent
     try {
-        const response = await fetch(`http://localhost:5000/budget`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({ budget: newBudget }),
-            credentials: 'include', // Ensure cookies are sent with the request
-        });
+      const response = await fetch(`http://localhost:5000/budget`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ budget: newBudget }),
+        credentials: 'include', // Ensure cookies are sent with the request
+      });
 
-        console.log('Response status:', response.status); // Log the response status
+      console.log('Response status:', response.status); // Log the response status
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Error updating budget:', errorData.message);
-            return;
-        }
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error updating budget:', errorData.message);
+        return;
+      }
 
-        const updatedUser = await response.json();
-        console.log('Budget updated:', updatedUser.user.budget);
-        setBudget(updatedUser.user.budget);
+      const updatedUser = await response.json();
+      console.log('Budget updated:', updatedUser.user.budget);
+      setBudget(updatedUser.user.budget);
     } catch (error) {
-        console.error('Fetch error:', error);
+      console.error('Fetch error:', error);
     }
-};
+  };
 
 
 
@@ -63,13 +163,13 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/membership" element={<Membership/>} />
-        <Route path="/services" element={<ProtectedRoute element={<Services/>} />} />
-        <Route path="/expense-track" element={<ExpenseTracking expenses={expenses} setExpenses={setExpenses} budget={budget} onBudgetChange={handleBudgetChange}/>} />
-        <Route path="/event-manage" element={<ProjectEventManagement expenses={expenses} setExpenses={setExpenses} />} />
+        <Route path="/membership" element={<Membership />} />
+        <Route path="/services" element={<ProtectedRoute element={<Services />} />} />
+        <Route path="/expense-track" element={<ExpenseTracking expenses={expenses} setExpenses={setExpenses} budget={budget} onBudgetChange={handleBudgetChange} />} />
+        <Route path="/event-manage" element={<ProjectEventManagement expenses={expenses} setExpenses={setExpenses} events={events} setEvents={setEvents} />} />
         <Route path="/notes" element={<ExecutionNotesComp setExecutionNotes={setExecutionNotes} />} />
-        <Route path="/visual-reports" element={<VisualReports expenses={expenses}/>} />
-        <Route path="/resources" element={<FinanceResources/>} />
+        <Route path="/visual-reports" element={<VisualReports expenses={expenses} events={events} budget={budget} />} />
+        <Route path="/resources" element={<FinanceResources />} />
         {/* <Route path="/income-savings" element={<IncomeManagement expenses={expenses} setExpenses={setExpenses} />} /> */}
         {/* <Route path="/income-saving-management" element={<IncomeSavingManagement expenses={expenses} setExpenses={setExpenses} />} /> */}
 

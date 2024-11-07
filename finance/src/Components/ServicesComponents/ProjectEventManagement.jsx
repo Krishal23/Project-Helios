@@ -10,7 +10,7 @@ import ExecutionNotesComp from './EventManagement/ExecutionNotesComp';
 
 
 
-const ProjectEventManagement = () => {
+const ProjectEventManagement = ({events, setEvents}) => {
 
 
     const [financialData, setFinancialData] = useState({});
@@ -46,41 +46,8 @@ const ProjectEventManagement = () => {
 
 
 
-    const [events, setEvents] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    // Fetch events when the component mounts
-    useEffect(() => {
-        const fetchEvents = async () => {
-            console.log("1")
-            try {
-                const response = await fetch('http://localhost:5000/get-events', {
-                    method: 'GET',
-                    credentials: 'include', // Include session cookies
-                  });
-                console.log("2",response)
-                const data = await response.json();
-                console.log("3")
-
-                console.log(data)
-                if (data.success) {
-                    setEvents(data.events);  // Set the events state
-                    console.log("fdg", events)
-
-                } else {
-                    setError(data.message);
-                }
-            } catch (err) {
-                setError('Failed to fetch events', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchEvents();
-    }, []);
-
+    // const [events, setEvents] = useState([]);
+   
 
 
 
