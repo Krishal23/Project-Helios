@@ -15,6 +15,8 @@ import VisualReports from '../Components/ServicesComponents/VisualReports';
 import FinanceResources from '../Components/ServicesComponents/FinanceResources';
 
 import ProtectedRoute from '../ProtectedRoute.jsx';
+// import ProtectedRoute2 from '../ProtectedRoute2.jsx';
+import ProtectedRoute3 from '../useFetchWithMembershipCheck.jsx';
 // import IncomeSavingManagement from '../Components/ServicesComponents/IncomeSavingManagement';
 
 function AppRoutes() {
@@ -23,6 +25,10 @@ function AppRoutes() {
   const [budget, setBudget] = useState(0); // Default budget value
 
   
+
+   const [isMember, setIsMember] = useState(false);
+
+
   const [events, setEvents] = useState([]);
 
 
@@ -118,7 +124,36 @@ function AppRoutes() {
     };
 
     fetchBudget();
-}, []);
+}, [budget]);
+
+// useEffect(()=>{
+//   const isMember = async()=>{
+//     try {
+//       const response = await fetch('http://localhost:5000/me', {
+//           method: 'GET',
+//           headers: {
+//               'Content-Type': 'application/json',
+//           },
+//           credentials: 'include' // Ensure credentials are sent
+//       });
+//       console.log("2", response)
+
+//       if (!response.ok) {
+//           const errorData = await response.json();
+//           console.log(errorData.message);
+//           return;
+//       }
+
+//       const data = await response.json();
+//       console.log(data,"usergsdfg")
+      
+//   } catch (error) {
+//       console.error('Error fetching user:', error);
+//   }
+  
+//   }
+//   isMember();
+// })
 
 
 
@@ -166,9 +201,9 @@ function AppRoutes() {
         <Route path="/membership" element={<Membership />} />
         <Route path="/services" element={<ProtectedRoute element={<Services />} />} />
         <Route path="/expense-track" element={<ExpenseTracking expenses={expenses} setExpenses={setExpenses} budget={budget} onBudgetChange={handleBudgetChange} />} />
-        <Route path="/event-manage" element={<ProjectEventManagement expenses={expenses} setExpenses={setExpenses} events={events} setEvents={setEvents} />} />
-        <Route path="/notes" element={<ExecutionNotesComp setExecutionNotes={setExecutionNotes} />} />
-        <Route path="/visual-reports" element={<VisualReports expenses={expenses} events={events} budget={budget} />} />
+        <Route path="/event-manage" element={<ProtectedRoute3 element={<ProjectEventManagement expenses={expenses} setExpenses={setExpenses} events={events} setEvents={setEvents} />}/>} />
+        <Route path="/notes" element={<ProtectedRoute element={<ExecutionNotesComp setExecutionNotes={setExecutionNotes} />}/>} />
+        <Route path="/visual-reports" element={<ProtectedRoute3 element={<VisualReports expenses={expenses} events={events} budget={budget} />}/>} />
         <Route path="/resources" element={<FinanceResources />} />
         {/* <Route path="/income-savings" element={<IncomeManagement expenses={expenses} setExpenses={setExpenses} />} /> */}
         {/* <Route path="/income-saving-management" element={<IncomeSavingManagement expenses={expenses} setExpenses={setExpenses} />} /> */}

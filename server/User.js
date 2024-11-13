@@ -15,6 +15,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    isMember: {
+        type: Boolean,
+        default: false,
+    },
     displayPicture: {
         type: String, // URL or base64 string
         default: 'https://via.placeholder.com/150' // Default placeholder image

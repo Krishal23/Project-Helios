@@ -79,14 +79,14 @@ function Header() {
                 </div>
                 <nav className={styles.navLinks}>
                     <ul>
-                        <div className={styles.themeToggle} onClick={toggleTheme}>
+                         <div className={styles.themeToggle} onClick={toggleTheme}>
                             <span
                                 className={styles.toggleSwitch}
                                 style={{ left: isDarkTheme ? '26px' : '4px' }}
                             >
                                 {isDarkTheme ? '🌙' : '☀️'}
                             </span>
-                        </div>
+                        </div> 
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/about">About Us</Link></li>
                         {/* <li><Link to="/services">Services</Link></li> */}

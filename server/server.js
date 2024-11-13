@@ -54,6 +54,31 @@ const authenticateSession = (req, res, next) => {
     }
 };
 
+// Middleware to verify if the user is a member
+const verifyMembership = async (req, res, next) => {
+    try {
+        // Get the user ID from the session
+        const userId = req.session.user?.id;
+
+        if (!userId) {
+            return res.status(401).json({ success: false, message: 'User not authenticated' });
+        }
+
+        // Check if the user exists in the Membership collection
+        const membership = await Membership.findOne({ userId });
+
+        if (!membership) {
+            return res.status(403).json({ success: false, message: 'User is not a member' });
+        }
+
+        // If the user is a member, proceed with the request
+        next();
+    } catch (error) {
+        console.error('Error checking membership:', error);
+        res.status(500).json({ success: false, message: 'Server error, could not verify membership.' });
+    }
+};
+
 
 // Signup Route
 app.post('/signup', async (req, res) => {
@@ -539,7 +564,8 @@ app.post('/notes', async (req, res) => {
         res.status(500).json({ message: 'Server error, could not save financial model.' });
     }
 });
-// API route to add financial model notes to a project
+
+
 // API route to get financial model notes for a project
 app.get('/notes/:projectId', authenticateSession, async (req, res) => {
     const { projectId } = req.params;  // Extract projectId from the URL
