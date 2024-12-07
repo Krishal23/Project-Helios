@@ -25,7 +25,7 @@ function AppRoutes() {
   const [budget, setBudget] = useState(0); // Default budget value
 
   
-
+console.log("hello")
    const [isMember, setIsMember] = useState(false);
 
 
