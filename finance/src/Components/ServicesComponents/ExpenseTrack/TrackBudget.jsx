@@ -16,7 +16,7 @@ const TrackBudget = ({ loggedExpenses, onBudgetChange }) => {
         const fetchBudget = async () => {
             console.log("1")
             try {
-                const response = await fetch('https://project-helios-1-lwa2.onrender.com/budget', {
+                const response = await fetch('http://localhost:5000/budget', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

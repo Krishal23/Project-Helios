@@ -52,7 +52,7 @@ const FinancialModeling = ({ events }) => {
             console.log(financialData);
 
             try {
-                const response = await fetch('https://project-helios-1-lwa2.onrender.com/financial-model', {
+                const response = await fetch('http://localhost:5000/financial-model', {
                     method: 'POST',
                     credentials: 'include', // Important for sending cookies/session info
                     headers: {

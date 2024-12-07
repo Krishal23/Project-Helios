@@ -24,7 +24,7 @@ const Preview = ({ events }) => {
 
     const fetchEvent = async (projectId) => {
         try {
-            const response = await fetch(`https://project-helios-1-lwa2.onrender.com/preview-event/${projectId}`, {
+            const response = await fetch(`http://localhost:5000/preview-event/${projectId}`, {
                 method: 'GET',
                 credentials: 'include',
             });

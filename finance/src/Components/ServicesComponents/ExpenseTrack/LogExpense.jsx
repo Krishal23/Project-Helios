@@ -17,7 +17,7 @@ const LogExpense = ({expenses, setExpenses}) => {
     useEffect(() => {
       const fetchExpenses = async () => {
         try {
-          const response = await fetch('https://project-helios-1-lwa2.onrender.com/get-expenses', {
+          const response = await fetch('http://localhost:5000/get-expenses', {
             method: 'GET',
             credentials: 'include', // Include session cookies
           });
@@ -44,7 +44,7 @@ const LogExpense = ({expenses, setExpenses}) => {
     const deleteExpense = async (index) => {
       const expenseId = expenses[index]._id;
       try {
-        const response = await fetch(`https://project-helios-1-lwa2.onrender.com/expenses/${expenseId}`, {
+        const response = await fetch(`http://localhost:5000/expenses/${expenseId}`, {
           method: 'DELETE',
           credentials: 'include',
         });
@@ -72,7 +72,7 @@ const LogExpense = ({expenses, setExpenses}) => {
       const expenseId = expenses[editIndex]._id;
 
       try {
-        const response = await fetch(`https://project-helios-1-lwa2.onrender.com/expenses/${expenseId}`, {
+        const response = await fetch(`http://localhost:5000/expenses/${expenseId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

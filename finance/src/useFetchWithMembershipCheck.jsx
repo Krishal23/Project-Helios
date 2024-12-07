@@ -9,7 +9,7 @@ function ProtectedRoute3({element}) {
     useEffect(() => {
         const checkMembership = async () => {
             try {
-                const response = await fetch('https://project-helios-1-lwa2.onrender.com/me', {
+                const response = await fetch('http://localhost:5000/me', {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include', // Send cookies with the request

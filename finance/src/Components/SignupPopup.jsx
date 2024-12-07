@@ -11,7 +11,7 @@ function SignupPopup({ closePopup, openLogin }) {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://project-helios-1-lwa2.onrender.com/signup', {
+            const response = await axios.post('http://localhost:5000/signup', {
                 username, // Include username in the request
                 email,
                 password,
