@@ -19,7 +19,7 @@ const ContactUs = () => {
         const contactData = { name, email, query };
 
         try {
-            const response = await fetch('http://localhost:5000/contactus', {
+            const response = await fetch('https://project-helios-1-lwa2.onrender.com/contactus', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

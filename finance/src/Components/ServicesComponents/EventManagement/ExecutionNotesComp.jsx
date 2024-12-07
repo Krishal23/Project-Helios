@@ -27,7 +27,7 @@ const ExecutionNotesComp = ({ events }) => {
     // Function to fetch notes for the selected event
     const fetchNotes = async (projectId) => {
         try {
-            const response = await fetch(`http://localhost:5000/notes/${projectId}`, {
+            const response = await fetch(`https://project-helios-1-lwa2.onrender.com/notes/${projectId}`, {
                 method: 'GET',
                 credentials: 'include', // Include session cookies
             });
@@ -80,7 +80,7 @@ const ExecutionNotesComp = ({ events }) => {
 
         // Save the note to the backend
         try {
-            const response = await fetch('http://localhost:5000/notes', {
+            const response = await fetch('https://project-helios-1-lwa2.onrender.com/notes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

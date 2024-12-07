@@ -37,7 +37,7 @@ console.log("hello")
     const fetchEvents = async () => {
       console.log("1")
       try {
-        const response = await fetch('http://localhost:5000/get-events', {
+        const response = await fetch('https://project-helios-1-lwa2.onrender.com/get-events', {
           method: 'GET',
           credentials: 'include', // Include session cookies
         });
@@ -69,7 +69,7 @@ console.log("hello")
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const response = await fetch('http://localhost:5000/get-expenses', {
+        const response = await fetch('https://project-helios-1-lwa2.onrender.com/get-expenses', {
           method: 'GET',
           credentials: 'include', // Include session cookies
         });
@@ -99,7 +99,7 @@ console.log("hello")
     const fetchBudget = async () => {
         console.log("1")
         try {
-            const response = await fetch('http://localhost:5000/budget', {
+            const response = await fetch('https://project-helios-1-lwa2.onrender.com/budget', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ console.log("hello")
 // useEffect(()=>{
 //   const isMember = async()=>{
 //     try {
-//       const response = await fetch('http://localhost:5000/me', {
+//       const response = await fetch('https://project-helios-1-lwa2.onrender.com/me', {
 //           method: 'GET',
 //           headers: {
 //               'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ console.log("hello")
   const handleBudgetChange = async (newBudget) => {
     console.log('Updating budget to:', newBudget); // Log the budget being sent
     try {
-      const response = await fetch(`http://localhost:5000/budget`, {
+      const response = await fetch(`https://project-helios-1-lwa2.onrender.com/budget`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -47,7 +47,7 @@ const ExpenseForm = ({ editingExpense, onUpdateExpense }) => {
         } else {
             try {
                 // Make API call to add a new expense
-                const response = await fetch('http://localhost:5000/expenses', {
+                const response = await fetch('https://project-helios-1-lwa2.onrender.com/expenses', {
                     method: 'POST',
                     credentials: 'include', // Important for sending cookies/session info
                     headers: {

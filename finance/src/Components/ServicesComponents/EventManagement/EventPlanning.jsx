@@ -25,7 +25,7 @@ const EventPlanning = () => {
         
         try {
             console.log('2');
-            const response = await fetch('http://localhost:5000/event-planning', {
+            const response = await fetch('https://project-helios-1-lwa2.onrender.com/event-planning', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

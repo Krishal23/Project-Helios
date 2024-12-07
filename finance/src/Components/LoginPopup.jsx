@@ -28,7 +28,7 @@ function LoginPopup({ closePopup,openSignup }) {
 
         try {
             console.log("1")
-            const response = await axios.post('http://localhost:5000/login', {
+            const response = await axios.post('https://project-helios-1-lwa2.onrender.com/login', {
                 email,
                 password,
             }, {
