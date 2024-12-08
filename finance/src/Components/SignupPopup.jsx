@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import styles from './styles/Signup.module.css';
 import logo from '../assets/logo.png'; // Import logo if needed
 
@@ -11,11 +11,18 @@ function SignupPopup({ closePopup, openLogin }) {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/signup', {
-                username, // Include username in the request
-                email,
-                password,
-            });
+            const response = await fetch('http://localhost:5000/signup', {
+                method: 'POST', // Specify the HTTP method as POST
+                headers: {
+                  'Content-Type': 'application/json', // Specify that the request body is JSON
+                },
+                body: JSON.stringify({
+                  username, // Include username in the request
+                  email,
+                  password,
+                }),
+              });
+              
             if (response.data.success) {
                 alert('Signup successful! Please log in.');
                 closePopup(); // Close signup popup after successful signup

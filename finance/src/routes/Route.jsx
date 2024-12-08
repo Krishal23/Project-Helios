@@ -129,7 +129,7 @@ console.log("hello")
 // useEffect(()=>{
 //   const isMember = async()=>{
 //     try {
-//       const response = await fetch('http://localhost:5000/me', {
+//       const response = await fetch('http://localhost:5000me', {
 //           method: 'GET',
 //           headers: {
 //               'Content-Type': 'application/json',

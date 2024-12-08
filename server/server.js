@@ -27,11 +27,10 @@ connectDB();
 app.use(express.json());
 app.use(cors({
     // origin: ['https://project-helios-2.onrender.com'],
-    origin: ['http://localhost:5173'],
+    origin: ['https://localhost:5173'],
     credentials: true,
 }));
 
-app.options('*', cors()); // Allow preflight requests for all routes
 
 app.use(cookieParser());
 
@@ -110,6 +109,7 @@ app.post('/signup', async (req, res) => {
 // Login Route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
+    console.log("hit")
 
     try {
         const user = await User.findOne({ email });

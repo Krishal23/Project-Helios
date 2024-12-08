@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import logo from '../assets/logo.png';
 import styles from './styles/LoginPopup.module.css';
-import axios from 'axios';
+// import axios from 'axios';
 import { useAuth } from '../AuthContext.jsx';
 import Signup from './SignupPopup.jsx'; // Import the Signup component
 import { redirect } from 'react-router-dom';
@@ -28,13 +28,19 @@ function LoginPopup({ closePopup,openSignup }) {
 
         try {
             console.log("1")
-            const response = await axios.post('http://localhost:5000/login', {
-                email,
-                password,
-            }, {
-                withCredentials: true, // Include credentials with the request
-            });
-            console.log("Full response:", response);
+            const response = await fetch('http://localhost:5000/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json', // Set content type to JSON
+                },
+                body: JSON.stringify({
+                  email, // The email from your state/input
+                  password, // The password from your state/input
+                }),
+                credentials: 'include', // Include credentials (cookies) with the request
+              });
+              
+            console.log("Full response:", response.data);
             console.log({ response });
 
             console.log("11")
